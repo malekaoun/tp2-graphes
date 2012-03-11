@@ -10,6 +10,7 @@ public class Main {
     private static Collection<Noeud> stations;
     private static Collection<Arc> arcs;
     private static Map<String, Ligne> lignes;
+    private static Map<String,Noeud> terminus; //à calculer au départ pour facilité l'affichage des lignes.
 
     private static AlgoCalculPlusCourtChemin algo;
 
@@ -18,7 +19,7 @@ public class Main {
     }
 
     public static void afficheLigne(String ligne) {
-
+    	
     }
 
     public static void afficheCorrespondance(String station) {
