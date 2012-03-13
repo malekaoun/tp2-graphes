@@ -1,9 +1,10 @@
 import java.util.Comparator;
 
-public class ComparatorCout implements Comparator<Arc>{
+public class ComparatorCout implements Comparator<Arc> {
 
     /**
      * Fontion a redefinir pour pouvoir utiliser un comparaison particuliaire entre 2 arcs en temps d'execution.
+     *
      * @param o1 Premier arc a comparer
      * @param o2 Deuxieme arc a comparer
      * @return la valeur de retour est 0 si les 2 arcs sont le meme objet, sinon on fait un comparaison de cout.

@@ -9,7 +9,7 @@ public class Lecteur {
 		String pathFile ="C:/Users/asus/Documents/doc moi/travail/Algo prog/TestLecteur";
 		
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir le nom du fichier à chager :");
+		System.out.println("Veuillez saisir le nom du fichier ï¿½ chager :");
 		String str = sc.nextLine();
 		String fichier = pathFile + '/' + str;
 		

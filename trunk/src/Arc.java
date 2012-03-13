@@ -7,7 +7,7 @@ public class Arc implements Comparable {
     private Noeud source;
     private Noeud destination;
 
-    private static Comparator<Object> comparator;
+    private static Comparator<Arc> comparator;
 
     public Arc(String ligne, float cout, Noeud source, Noeud destination) {
         this.ligne = ligne;
@@ -60,8 +60,12 @@ public class Arc implements Comparable {
      *
      * @param comparator il doit avoir la logique de comparaison entre 2 arcs.
      */
-    public static void setComparator(Comparator<Object> comparator) {
+    public static void setComparator(Comparator<Arc> comparator) {
         Arc.comparator = comparator;
+    }
+
+    public static Comparator<Arc> getComparator() {
+        return comparator;
     }
 
     /**
@@ -78,7 +82,7 @@ public class Arc implements Comparable {
             return 0;
         if (comparator != null) {
             // La comparaison est deleguee a la classe Comparator
-            return comparator.compare(this, (Noeud) o);
+            return comparator.compare(this, (Arc) o);
         }
         return Integer.MIN_VALUE;
     }
