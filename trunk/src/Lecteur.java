@@ -38,7 +38,7 @@ public class Lecteur {
 				Noeud end = stations.get(Integer.parseInt(ligne[1]));
 				A =Arc(ligne[3],Float.parseFloat(ligne[2]),start,end);
 				arcs.add(A);
-				start.addArc(ligne[3],A);
+				start.lierArc(A);
 				//initiatilation du map de noeud contenant les arcs adjacents
 				
 			}
