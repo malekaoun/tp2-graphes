@@ -6,14 +6,22 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
     private class StationWrapper implements Comparable<StationWrapper> {
         float mark;
         Noeud station;
+        StationWrapper prevStation;
+        boolean isAppartientCheminCourt;
 
-        StationWrapper(Noeud station, float mark) {
+        StationWrapper(Noeud station, float mark, StationWrapper prevStation) {
             this.mark = mark;
             this.station = station;
+            this.prevStation = prevStation;
+            this.isAppartientCheminCourt = false;
+        }
+
+        private StationWrapper(Noeud station, float mark) {
+            this(station, mark, null);
         }
 
         StationWrapper(Noeud station) {
-            this(station, Float.MAX_VALUE);
+            this(station, Float.MAX_VALUE, null);
         }
 
         @Override
@@ -47,6 +55,7 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
     // Structrure necessaire pour Djikstra
     private PriorityQueue<StationWrapper> fileAttente = new PriorityQueue<StationWrapper>();
     private HashMap<Noeud, Float> stationsMarquees = new HashMap<Noeud, Float>();
+    private StationWrapper deniereConnexionFaiteAtteignantArrivee;
 
     @Override
     public Collection<Arc> plusCourtChemin(String stationDepart, String stationArrive) {
@@ -58,8 +67,6 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
             System.out.println("Le chemin le plus court est impossible de calculer entre: " + stationDepart + " et " + stationArrive + ".");
             return null;
         }
-
-        TreeSet<Arc> arcsRetour = new TreeSet<Arc>();
 
         // Sauvegarder le comparator de base.  pas encore sur de l'interet !!!!!
         Comparator<Arc> objectComparator = Arc.getComparator();
@@ -90,11 +97,16 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
                 float cout = cur.mark + arcCur.getCout();
                 Noeud stationAdjacenteCur = arcCur.getDestination();
 
+                StationWrapper temp = new StationWrapper(stationAdjacenteCur, cout, cur);
+
                 //Optimisation qui permet finir Djikstra avant de traiter tous les noeuds.
-                if (isArriveeAtteinte){
-                    if (coutCurMin > cout)
+                if (isArriveeAtteinte) {
+                    if (coutCurMin > cout) {
                         coutCurMin = cout;
-                    else{
+                        demarqueChemin();
+                        marqueChemin(temp);
+                    }
+                    else {
                         /*
                         La station courrante est atteinte avec un cout plus eleve que pour atteindre notre station d'arrivee.
                         A cause du fait que cette station est celle qui a le cout le plus petit, on peut dire
@@ -104,18 +116,19 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
                         break;
                     }
                 }
-                if (stationAdjacenteCur.equals(nouedArrive))
-                    isArriveeAtteinte = true;
 
-                fileAttente.add(new StationWrapper(stationAdjacenteCur, cout));
+                if (stationAdjacenteCur.equals(nouedArrive)){
+                    isArriveeAtteinte = true;
+                    marqueChemin(temp);
+                }
+
+                fileAttente.add(temp);
             }
         }
 
         // Remettre le comparator de base.     pas encore sur de l'interet !!!!!
         Arc.setComparator(objectComparator);
-
-        // Pas completer !!!!!!!
-        return arcsRetour;
+        return noeudsToArcs();
     }
 
     /**
@@ -142,5 +155,48 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
             ret = (Noeud) map.get(map.keySet().iterator().next());
         }
         return ret;
+    }
+
+
+    /**
+     *  Cette fonction est utiliser pour faire le marquage d'un chemin qui joint le <code>Noeud</code> de depart et de arrive.
+     * @param stationWrapper <code>StationWrapper</code> avec la derniere connexion qui atteind le <code>Noeud</code> d'arrive.
+     */
+    private void marqueChemin(StationWrapper stationWrapper){
+        stationWrapper.isAppartientCheminCourt = true;
+        deniereConnexionFaiteAtteignantArrivee = stationWrapper;
+        StationWrapper prev = stationWrapper.prevStation;
+        while (prev != null){
+            prev.isAppartientCheminCourt = true;
+            prev = prev.prevStation;
+        }
+    }
+
+    /**
+     *  Cette fonction est utiliser pour faire le demarquage d'un chemin qui joint le <code>Noeud</code> de depart et de arrive.
+     */
+    private void demarqueChemin(){
+        StationWrapper cur = deniereConnexionFaiteAtteignantArrivee;
+        while (cur != null){
+            cur.isAppartientCheminCourt = false;
+            cur = cur.prevStation;
+        }
+    }
+
+    /**
+     * Fonction permettant passer d'une <code>Collectio</code> de <code>Noeud</code> a une de <code>Arc</code> exploitable.
+     * @return  <code>Collectio</code> d'<code>Arc</code> avec les <code>Noeud</code> qui rester dans <code>stationsMarquees</code>
+     */
+    private LinkedList<Arc> noeudsToArcs() {
+        LinkedList<Arc> arcs = new LinkedList<Arc>();
+        StationWrapper cur = deniereConnexionFaiteAtteignantArrivee;
+        while (cur != null){
+            StationWrapper prev = cur.prevStation;
+            arcs.addLast(prev.station.connexion(cur.station));
+            cur = prev;
+        }
+        if (arcs.peekFirst() == null)
+            arcs.removeFirst();
+        return arcs;
     }
 }
