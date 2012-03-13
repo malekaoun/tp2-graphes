@@ -2,10 +2,14 @@ import java.io.*;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Scanner;
-
+/**
+ * 
+ * @author asus
+ * @Param remplie les collections de données des arcs et noeuds
+ */
 
 public class Lecteur {
-	public void lecture (Collection<Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes){	
+	public void lecture (Collection<Noeud> stations, Collection<Arc> arcs){	
 		String pathFile ="C:/Users/asus/Documents/doc moi/travail/Algo prog/TestLecteur";
 		
 		Scanner sc = new Scanner(System.in);
@@ -32,7 +36,11 @@ public class Lecteur {
 				ligne=br.readLine().split(" ");
 				Noeud start = stations.get(Integer.parseInt(ligne[0]));
 				Noeud end = stations.get(Integer.parseInt(ligne[1]));
-				arcs.add(Arc(ligne[3],Float.parseFloat(ligne[2]),start,end));
+				A =Arc(ligne[3],Float.parseFloat(ligne[2]),start,end);
+				arcs.add(A);
+				start.addArc(ligne[3],A);
+				//initiatilation du map de noeud contenant les arcs adjacents
+				
 			}
 			br.close(); 
 		}		
