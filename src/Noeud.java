@@ -80,4 +80,17 @@ public class Noeud implements Comparable<Noeud> {
             stationsAdjacentes.add(iterator.next().getDestination());
         return stationsAdjacentes;
     }
+
+    /**
+     * Cette fonction a pour but trouver l'<code>Arc</code> qui connecte
+     * le <code>Noeud</code> actuel et celui qui est passe en parametre.
+     * @param noeud  <code>Noeud</code> a tester
+     * @return L'<code>Arc</code> qui connecte les 2 <code>Noued</code> ou null, si les noeuds sont pas connectes.
+     */
+    public Arc connexion(Noeud noeud){
+        for (Arc arc : arcs)
+            if (arc.getDestination().equals(noeud))
+                return arc;
+        return null;
+    }
 }
