@@ -85,10 +85,8 @@ public class Djikstra implements AlgoCalculPlusCourtChemin {
              */
             stationsMarquees.put(cur.station, cur.mark);
 
-            Map<String, Arc> curArcs = cur.station.getArcs();
-            Iterator<String> iterator = curArcs.keySet().iterator();
-            while (iterator.hasNext()) {
-                Arc arcCur = curArcs.get(iterator.next());
+            Collection<Arc> curArcs = cur.station.getArcs();
+            for(Arc arcCur:curArcs) {
                 float cout = cur.mark + arcCur.getCout();
                 Noeud stationAdjacenteCur = arcCur.getDestination();
 
