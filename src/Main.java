@@ -8,22 +8,34 @@ public class Main {
     public static final float COUT_TRAMWAY = 40;
 
 
-    private static Map<Integer, Noeud> stations;
-    private static Collection<Arc> arcs;
+    private static Map<Integer, Noeud> stations; //// map<string,noeud> !!!!!
+     private static Collection<Arc> arcs;
     private static Map<String, Ligne> lignes;
 
     private static AlgoCalculPlusCourtChemin algo;
 
     public Main() {
-        //Initialiser stations, arcs, lignes.
+    	lecteur.lecture(stations,arcs);
+    	// à ajouté calcul pour remplire la map lignes
     }
 
     public static void afficheLigne(String ligne) {
-    	
+    	String chaineLigne = "";
+    	Noeud station = lignes.get(ligne).getTerminus();
+    	chaineLigne += debut.getStation()+" - ";
+    	while(// condition d'arret ??){
+    		station = station.getArcs.get(ligne).getDestination();
+    		chaineLigne =+ station.getStation() + " - ";
+    	}
+    	system.out.println(chaineLigne);
     }
 
     public static void afficheCorrespondance(String station) {
-
+    	Noeud station = Stations.get(station);
+    	Iterator<Arc> it = station.getArcs().iterator();
+    	while(it.hasNext()){
+    		system.out.println(it.next().getLigne());
+    	}
     }
 
     public static void affichePlusCourtChemin(String stationDepart, String stationArrive) {
@@ -130,5 +142,5 @@ public class Main {
         if (! isFound)
             cur = null;
         return cur;
-    }
+    }   	
 }
