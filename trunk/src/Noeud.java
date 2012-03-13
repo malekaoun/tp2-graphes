@@ -36,6 +36,13 @@ public class Noeud implements Comparable<Noeud> {
                     return arc.getLigne().equals(ligne);
         return false;
     }
+    public Integer getId(){
+    	return this.id;
+    }
+    
+    public String getStation(){
+    	return this.station;
+    }
 
     /**
      * Utiliser pour trier les noeuds.
