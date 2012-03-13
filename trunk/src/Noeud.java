@@ -1,3 +1,4 @@
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -6,8 +7,7 @@ public class Noeud implements Comparable<Noeud> {
     private int id;
     private String station;
 
-    // La clef va etre la ligne. Cette structure sera utile pour afficher la ligne.
-    private Map<String, Arc> arcs;
+    private Collection<Arc> arcs;
 
     public Noeud(int id, String station) {
         this.id = id;
@@ -15,12 +15,12 @@ public class Noeud implements Comparable<Noeud> {
         // Initialiser arcs
     }
 
-    public Map<String, Arc> getArcs() {
+    public Collection<Arc> getArcs() {
         return arcs;
     }
 
     public void lierArc(Arc arc) {
-        arcs.put(arc.getLigne(), arc);
+        arcs.add(arc);
     }
 
     /**
@@ -31,7 +31,9 @@ public class Noeud implements Comparable<Noeud> {
      */
     public boolean isSurLigne(String ligne) {
         if (!ligne.equals("0"))
-            return arcs.keySet().contains(ligne);
+            for(Arc arc: arcs)
+                if (! arc.getLigne().equals("0"))
+                    return arc.getLigne().equals(ligne);
         return false;
     }
 
@@ -52,6 +54,18 @@ public class Noeud implements Comparable<Noeud> {
                 ret = -1;
         }
         return ret;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != this){
+            if (o instanceof Noeud)
+                return station.equals(((Noeud)o).station);
+            if (o instanceof String)
+                return station.equals(o);
+            return false;
+        }
+        return true;
     }
 
     /**
