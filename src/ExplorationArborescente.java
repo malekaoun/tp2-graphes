@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class ExplorationArborescente implements AlgoCalculPlusCourtChemin {
 
@@ -29,7 +32,6 @@ public class ExplorationArborescente implements AlgoCalculPlusCourtChemin {
     public Collection<Arc> plusCourtChemin(String stationDepart, String stationArrive) {
         source = Main.getStation(stationDepart);
         fin = Main.getStation(stationArrive);
-        // Verfication de l'existence des 2 stations
         if (source == null || fin == null) {
             System.out.println("Le chemin le plus court est impossible de calculer entre: " + stationDepart + " et " + stationArrive + ".");
             return null;
@@ -41,8 +43,8 @@ public class ExplorationArborescente implements AlgoCalculPlusCourtChemin {
     }
 
     private void parcourProfondeur(Noeud source) {
-        for (Noeud destination : source.stationsAdjacentes()) {
-            float d = stations.get(source).distance + source.connexion(destination).getCout();
+        for (Noeud destination : source.getStationsAdjacentes()) {
+            float d = stations.get(source).distance + source.getConnexion(destination).getCout();
             X xDestination = stations.get(destination);
             if (d < xDestination.distance) {
                 xDestination.distance = d;
@@ -52,12 +54,12 @@ public class ExplorationArborescente implements AlgoCalculPlusCourtChemin {
         }
     }
 
-    private LinkedList<Arc> noeudsToArcs() {
-        LinkedList<Arc> arcs = new LinkedList<Arc>();
+    private Deque<Arc> noeudsToArcs() {
+        Deque<Arc> arcs = new LinkedList<Arc>();
         Noeud cur = fin;
         while (cur != null) {
             Noeud prev = stations.get(cur).predecesseur;
-            arcs.addLast(prev.connexion(prev));
+            arcs.addLast(prev.getConnexion(prev));
             cur = prev;
         }
         if (arcs.peekFirst() == null)

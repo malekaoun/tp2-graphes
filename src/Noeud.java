@@ -1,7 +1,7 @@
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Set;
 
 public class Noeud implements Comparable<Noeud> {
     private int id;
@@ -19,6 +19,10 @@ public class Noeud implements Comparable<Noeud> {
         return arcs;
     }
 
+    public String getStation() {
+        return station;
+    }
+
     public void lierArc(Arc arc) {
         arcs.add(arc);
     }
@@ -31,17 +35,10 @@ public class Noeud implements Comparable<Noeud> {
      */
     public boolean isSurLigne(String ligne) {
         if (!ligne.equals("0"))
-            for(Arc arc: arcs)
-                if (! arc.getLigne().equals("0"))
+            for (Arc arc : arcs)
+                if (!arc.getLigne().equals("0"))
                     return arc.getLigne().equals(ligne);
         return false;
-    }
-    public Integer getId(){
-    	return this.id;
-    }
-    
-    public String getStation(){
-    	return this.station;
     }
 
     /**
@@ -65,9 +62,9 @@ public class Noeud implements Comparable<Noeud> {
 
     @Override
     public boolean equals(Object o) {
-        if (o != this){
+        if (o != this) {
             if (o instanceof Noeud)
-                return station.equals(((Noeud)o).station);
+                return station.equals(((Noeud) o).station);
             if (o instanceof String)
                 return station.equals(o);
             return false;
@@ -75,14 +72,19 @@ public class Noeud implements Comparable<Noeud> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return id + "-" + station;
+    }
+
     /**
-     * On recuperer les stations adjacentes a cette station. Utile pour Djikstra. Pre-requis arcs doit etre iterable.
+     * On recuperer les stations adjacentes a cette station. Utile pour Dijkstra. Pre-requis arcs doit etre iterable.
      *
-     * @return <code>TreeSet</code> des station adjacentes via les arcs.
+     * @return <code>Set</code> des station adjacentes via les arcs.
      */
-    public HashSet<Noeud> stationsAdjacentes() {
-        HashSet<Noeud> stationsAdjacentes = new HashSet<Noeud>();
-        Iterator<Arc> iterator = ((Iterable<Arc>) arcs).iterator();
+    public Set<Noeud> getStationsAdjacentes() {
+        Set<Noeud> stationsAdjacentes = new HashSet<Noeud>();
+        Iterator<Arc> iterator = arcs.iterator();
         while (iterator.hasNext())
             stationsAdjacentes.add(iterator.next().getDestination());
         return stationsAdjacentes;
@@ -91,10 +93,11 @@ public class Noeud implements Comparable<Noeud> {
     /**
      * Cette fonction a pour but trouver l'<code>Arc</code> qui connecte
      * le <code>Noeud</code> actuel et celui qui est passe en parametre.
-     * @param noeud  <code>Noeud</code> a tester
+     *
+     * @param noeud <code>Noeud</code> a tester
      * @return L'<code>Arc</code> qui connecte les 2 <code>Noued</code> ou null, si les noeuds sont pas connectes.
      */
-    public Arc connexion(Noeud noeud){
+    public Arc getConnexion(Noeud noeud) {
         for (Arc arc : arcs)
             if (arc.getDestination().equals(noeud))
                 return arc;

@@ -1,6 +1,4 @@
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static final float COUT_CORRESPONDANCE = 120;
@@ -8,34 +6,43 @@ public class Main {
     public static final float COUT_TRAMWAY = 40;
 
 
-    private static Map<Integer, Noeud> stations; //// map<string,noeud> !!!!!
-     private static Collection<Arc> arcs;
+    private static Map<Integer, Noeud> stations;
+    private static Collection<Arc> arcs;
     private static Map<String, Ligne> lignes;
 
     private static AlgoCalculPlusCourtChemin algo;
 
     public Main() {
-    	lecteur.lecture(stations,arcs);
-    	// à ajouté calcul pour remplire la map lignes
+        //Initialiser stations, arcs, lignes. !!!!
     }
 
     public static void afficheLigne(String ligne) {
-    	String chaineLigne = "";
-    	Noeud station = lignes.get(ligne).getTerminus();
-    	chaineLigne += debut.getStation()+" - ";
-    	while(// condition d'arret ??){
-    		station = station.getArcs.get(ligne).getDestination();
-    		chaineLigne =+ station.getStation() + " - ";
-    	}
-    	system.out.println(chaineLigne);
+        if (lignes.get(ligne) == null) {
+            System.out.println("La ligne " + ligne + " n'existe pas.");
+            return;
+        }
+        System.out.println(lignes.get(ligne));
     }
 
     public static void afficheCorrespondance(String station) {
-    	Noeud station = Stations.get(station);
-    	Iterator<Arc> it = station.getArcs().iterator();
-    	while(it.hasNext()){
-    		system.out.println(it.next().getLigne());
-    	}
+        Noeud noeudStation = getStation(station);
+        if (noeudStation == null) {
+            System.out.println("La station " + station + " n'existe pas.");
+            return;
+        }
+        Set<String> lignes = new HashSet<String>();
+        Collection<Noeud> correspondancesATraiter = new LinkedList<Noeud>();
+        for (Arc arc : noeudStation.getArcs()) {
+            String temp = arc.getLigne();
+            if (temp.equals("0"))
+                correspondancesATraiter.add(arc.getDestination());
+            else
+                lignes.add(arc.getLigne());
+        }
+        for (Noeud n : correspondancesATraiter)
+            for (Arc arc : n.getArcs())
+                lignes.add(arc.getLigne());
+
     }
 
     public static void affichePlusCourtChemin(String stationDepart, String stationArrive) {
@@ -45,11 +52,11 @@ public class Main {
         }
         Boolean isMal = false;
         String str = "Les parametres fournis sont invalides:\n";
-        if (stationDepart == null || isStation(stationDepart)) {
+        if (stationDepart == null || getStation(stationDepart) == null) {
             isMal = true;
             str += "Le nom de la station de depart invalide.\n";
         }
-        if (stationArrive == null || isStation(stationArrive)) {
+        if (stationArrive == null || getStation(stationArrive) == null) {
             isMal = true;
             str += "Le nom de la station d'arrive invalide.";
         }
@@ -58,16 +65,6 @@ public class Main {
             return;
         }
         str = getChemin(stationDepart, stationArrive, algo.plusCourtChemin(stationDepart, stationArrive));
-    }
-
-    /**
-     * Fonction utilise pour verifier l'existence de la station parmis les stations deja inscrites.
-     *
-     * @param station <code>String</code> avec le nom de la station recherchee.
-     * @return <code>true</code> si la station existe, <code>false</code> dans le cas echeant.
-     */
-    private static boolean isStation(String station) {
-        return true;
     }
 
     /**
@@ -115,32 +112,16 @@ public class Main {
      * @return retour un <code>Noeud</code> s'il existe une station avec ce nom.
      */
     public static Noeud getStation(String station) throws NullPointerException {
-        /*Map<String, Noeud> stationsRetour = stations.get(station);
-        if (stationsRetour.isEmpty())
-            throw new NullPointerException("La station n'existe pas");
-        if (stationsRetour.size() == 1)
-            *//*
-            Il a un seul element donc on le retourne. Le keySet n'ai jamais vide et on peut recuperer toujours
-            le primer String qui identifie la station recherche.
-             *//*
-            return stationsRetour.get(stationsRetour.keySet().iterator().next());
-        else
-            *//*
-            Il existe au moins 2 station avec le meme nom mais elles font partie de 2 lignes differentes (specification du TP).
-            Donc la solucion est retourner les station avec le meme nom qui pourront etre distingue avec la ligne
-            Map<String ligne, <Noeud> station>
-             *//*
-            return stationsRetour;*/
-        Iterator<Noeud> iterator = ((Iterable<Noeud>)stations).iterator();
+        Iterator<Noeud> iterator = ((Iterable<Noeud>) stations).iterator();
         boolean isFound = false;
         Noeud cur = null;
-        while (iterator.hasNext() && ! isFound){
+        while (iterator.hasNext() && !isFound) {
             cur = iterator.next();
             if (cur.equals(station))
                 isFound = true;
         }
-        if (! isFound)
+        if (!isFound)
             cur = null;
         return cur;
-    }   	
+    }
 }
