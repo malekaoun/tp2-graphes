@@ -36,10 +36,8 @@ public class Main {
             String temp = arc.getLigne();
             if (temp.equals("0"))
                 correspondancesATraiter.add(arc.getDestination());
-            else{
+            else
                 strings.add(arc.getLigne());
-                break;
-            }
         }
         for (Noeud n : correspondancesATraiter)
             for (Arc arc : n.getArcs())
