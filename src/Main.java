@@ -5,16 +5,15 @@ public class Main {
     public static final float COUT_TRAJET_PIED = 240;
     public static final float COUT_TRAMWAY = 40;
 
+    public static final String GRENOBLE = "reseauTramGrenoble2010.graph";
+    public static final String PARIS = "reseauMetroRERTramParis2009.grapgh";
+
 
     private static Map<Integer, Noeud> stations;
     private static Collection<Arc> arcs;
     private static Map<String, Ligne> lignes;
 
     private static AlgoCalculPlusCourtChemin algo;
-
-    public Main() {
-        //Initialiser stations, arcs, lignes. !!!!
-    }
 
     public static void afficheLigne(String ligne) {
         if (lignes.get(ligne) == null) {
@@ -125,17 +124,66 @@ public class Main {
         return cur;
     }
 
-    public static void menuPrincipale(){
+    public static void menuPrincipale() {
         System.out.println("Tp - Le plus court chemin dans un graphe.");
         System.out.println("1 - Afficher ligne.");
         System.out.println("2 - Afficher corespondance");
         System.out.println("3 - Afficher plus court chemin");
         System.out.println("4 - Charge un graphe à partir d'un fichier.");
         System.out.println("S/s sortir");
-        String opt = System.in.toString();
+        Scanner scanner = new Scanner(System.in);
+        String opt = scanner.next();
+        if (opt.toLowerCase().charAt(0) != 's') {
+            int optInt = Integer.parseInt(opt);
+            switch (optInt) {
+                case 1:
+                    System.out.println("Veuillez introduire la ligne à afficher: ");
+                    afficheLigne(scanner.next());
+                    break;
+
+                case 2:
+                    System.out.println("Veuillez introduire le nom de la station à traiter: ");
+                    afficheCorrespondance(scanner.next());
+                    break;
+
+                case 3:
+                    System.out.println("Veuillez saisir le nom de la station de départ: ");
+                    String str = scanner.next();
+                    System.out.println("Veuillez saisir le nom de la station d'arrivée: ");
+                    affichePlusCourtChemin(str, scanner.next());
+                    break;
+
+                case 4:
+                    String fichier = "";
+                    System.out.println("Veuillez saisir la option de fichier à charger: ");
+                    System.out.println("G - Grenoble (default)");
+                    System.out.println("P - Paris");
+                    switch (scanner.next().toLowerCase().charAt(0)){
+                        default:
+                        case 'g':
+                            fichier = GRENOBLE;
+                            break;
+                        case 'p':
+                            fichier = PARIS;
+                            break;
+                    }
+                    stations.clear();
+                    arcs.clear();
+                    lignes.clear();
+                    Lecteur.lecture(stations, arcs, lignes, fichier);
+                    break;
+                default:
+                    System.out.println("Option inexistante.");
+            }
+            menuPrincipale();
+        }
     }
 
-    public static void main (String args[]){
-        String opt = System.in.toString();
+    public static void main(String args[]) {
+        stations = new HashMap<Integer, Noeud>();
+        arcs = new ArrayList<Arc>();
+        lignes = new Hashtable<String, Ligne>();
+        Lecteur.lecture(stations, arcs, lignes, GRENOBLE);
+        menuPrincipale();
     }
 }
