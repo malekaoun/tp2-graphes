@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -32,7 +33,7 @@ public void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<Stri
 
             for (int i = 0; i < nbNoeud; i++) {
                 ligne = br.readLine().split(" ",2);
-                stations.put(ligne[1],Noeud(Integer.parseInt(ligne[0]), ligne[1]));
+                stations.put(Integer.parseInt(ligne[1]), new Noeud(Integer.parseInt(ligne[0]), ligne[1]));
             }
             String lastLigne = "";
             for (int i = 0; i < nbArc; i++) {
@@ -41,9 +42,9 @@ public void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<Stri
                 Noeud end = stations.get(Integer.parseInt(ligne[1]));
                 lastLigne = ligne[3];
                 if(ligne[3] != lastLigne && ligne[3] != "0"){// ne gere pas si les arc sont en desordre
-                	lignes.put(ligne[3],new(ligne(ligne[3],start)));
+                	lignes.put(ligne[3], new Ligne(ligne[3],start));
                 }
-                Arc A = Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
+                Arc A = new Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
                 arcs.add(A);
                 start.lierArc(A);
 

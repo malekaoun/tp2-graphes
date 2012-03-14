@@ -1,12 +1,15 @@
+import java.util.*;
+
 public class BellmanFord implements AlgoCalculPlusCourtChemin {
 
     // Classe interne pour gerer le marcage necessaire pour faire Djikstra
     private class StationWrapper implements Comparable<StationWrapper> {
         float mark;
         Noeud station;
-        Arc predec;
+        Arc predecArc;
+        Noeud predecNoeud;
 
-        StationWarpper(Noeud station, float mark, Arc predecArc, Noeud predecNoeud) {
+        StationWrapper(Noeud station, float mark, Arc predecArc, Noeud predecNoeud) {
             this.mark = mark;
             this.station = station;
             this.predecArc = predecArc;
@@ -54,44 +57,46 @@ public class BellmanFord implements AlgoCalculPlusCourtChemin {
 
     // Structrure necessaire pour Bellman-Ford
     private Deque<StationWrapper> pile = new ArrayDeque<StationWrapper>();
-    private Map<Noeud, StationWarpper> chemins = new HashMap<Noeud, StationWarpper>();
+    private Map<Noeud, StationWrapper> chemins = new HashMap<Noeud, StationWrapper>();
 
     @Override
     public Collection<Arc> plusCourtChemin(String stationDepart, String stationArrive) {
-        LinkedList bellman = new LinkedList();
-        Noeud noeudDepart = stringToNoeud(stationDepart);
-        Noeud nouedArrive = stringToNoeud(stationArrive);
+        Deque<Arc> bellman = new LinkedList<Arc>();
+        Noeud noeudDepart = Main.getStation(stationDepart);
+        Noeud noeudArrive = Main.getStation(stationArrive);
         // Verfication de l'existence des 2 stations
-        if (noeudDepart == null || nouedArrive == null) {
+        if (noeudDepart == null || noeudArrive == null) {
             System.out.println("Le chemin le plus court est impossible de calculer entre: " + stationDepart + " et " + stationArrive + ".");
             return null;
         }
         // algorithme de Bellman-Ford //
-        pile.push(new StationWarpper(noeudDepart, 0);
+        pile.push(new StationWrapper(noeudDepart, 0));
         Float distance;
         while (!pile.isEmpty()) {
-            StationWarpper warp = pile.pop();
-            Iterator<Arc> iterator = warp.station.getArcs.iterator();
+            StationWrapper warp = pile.pop();
+            Iterator<Arc> iterator = warp.station.getArcs().iterator();
 
             while (iterator.hasNext()) {
                 Arc arcCur = iterator.next();
-                distance = station.mark + arcCur.getCout();
-                if (!chemins.containsKey(arcCur.getDestination()) && chemins.getValue(arcCur.getDestination()).mark > distance) {
-                    StationWarpper newWarp = new StationWarpper(arcCur.getDestination(), distance, arcCur, arcCur.getSource());
-                    chemins.put(arcCur.getDestination, newWarp);
+                distance = warp.mark + arcCur.getCout();
+                if (!chemins.containsKey(arcCur.getDestination()) && chemins.get(arcCur.getDestination()).mark > distance) {
+                    StationWrapper newWarp = new StationWrapper(arcCur.getDestination(), distance, arcCur, arcCur.getSource());
+                    chemins.put(arcCur.getDestination(), newWarp);
+                    pile.push(newWarp);
                 }
-                pile.push(newWarp);
             }
         }
         // fin algo //
 
         // remplissage de la liste d'arcs
-        stationWarp = chemins.get(noeudDestination());
-        while (stationWarp.station != noeudsource) {
-            bellman.addfirst(stationWarp.predecArc);
+        StationWrapper stationWarp = chemins.get(noeudArrive);
+        while (stationWarp.station != noeudDepart) {
+            bellman.addFirst(stationWarp.predecArc);
             stationWarp = chemins.get(stationWarp.predecNoeud);
         }
         return bellman;
 
 
     }
+}
+

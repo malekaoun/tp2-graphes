@@ -124,4 +124,18 @@ public class Main {
             cur = null;
         return cur;
     }
+
+    public static void menuPrincipale(){
+        System.out.println("Tp - Le plus court chemin dans un graphe.");
+        System.out.println("1 - Afficher ligne.");
+        System.out.println("2 - Afficher corespondance");
+        System.out.println("3 - Afficher plus court chemin");
+        System.out.println("4 - Charge un graphe à partir d'un fichier.");
+        System.out.println("S/s sortir");
+        String opt = System.in.toString();
+    }
+
+    public static void main (String args[ ]){
+        String opt = System.in.toString();
+    }
 }
