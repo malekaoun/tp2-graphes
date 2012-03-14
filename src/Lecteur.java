@@ -28,11 +28,12 @@ public class Lecteur {
 
             for (int i = 0; i < nbNoeud; i++) {
                 ligne = br.readLine().split(" ", 2);
-                stations.put(Integer.parseInt(ligne[1]), new Noeud(Integer.parseInt(ligne[0]), ligne[1]));
+                String nomStation = ligne[1].replaceAll(" ","_");
+                stations.put(Integer.parseInt(ligne[0]), new Noeud(Integer.parseInt(ligne[0]), nomStation));
             }
             String lastLigne = "";
             for (int i = 0; i < nbArc; i++) {
-                ligne = br.readLine().split(" ", 2);
+                ligne = br.readLine().split(" ");
                 Noeud start = stations.get(Integer.parseInt(ligne[0]));
                 Noeud end = stations.get(Integer.parseInt(ligne[1]));
                 lastLigne = ligne[3];

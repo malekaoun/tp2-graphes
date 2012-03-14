@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Main {
@@ -29,19 +30,28 @@ public class Main {
             System.out.println("La station " + station + " n'existe pas.");
             return;
         }
-        Set<String> lignes = new HashSet<String>();
+        Set<String> strings = new HashSet<String>();
         Collection<Noeud> correspondancesATraiter = new LinkedList<Noeud>();
         for (Arc arc : noeudStation.getArcs()) {
             String temp = arc.getLigne();
             if (temp.equals("0"))
                 correspondancesATraiter.add(arc.getDestination());
-            else
-                lignes.add(arc.getLigne());
+            else{
+                strings.add(arc.getLigne());
+                break;
+            }
         }
         for (Noeud n : correspondancesATraiter)
             for (Arc arc : n.getArcs())
-                lignes.add(arc.getLigne());
+                if (!arc.getLigne().equals("0")){
+                    strings.add(arc.getLigne());
+                    break;
+                }
 
+        String correspondance = "Les correspondance de la station: " + station + " sont: ";
+        for(String str : strings)
+            correspondance += "\n" + str;
+        System.out.println(correspondance);
     }
 
     public static void affichePlusCourtChemin(String stationDepart, String stationArrive) {
@@ -63,7 +73,7 @@ public class Main {
             System.out.println(str);
             return;
         }
-        str = getChemin(stationDepart, stationArrive, algo.plusCourtChemin(stationDepart, stationArrive));
+        System.out.println(getChemin(stationDepart, stationArrive, algo.plusCourtChemin(stationDepart, stationArrive)));
     }
 
     /**
@@ -147,6 +157,22 @@ public class Main {
                     break;
 
                 case 3:
+                    System.out.println("Veuillez choisir un algo de calcul: ");
+                    System.out.println("A - Arborescence");
+                    System.out.println("B - Bellman-Ford");
+                    System.out.println("D - Dijkstra (default)");
+                    switch (scanner.next().toLowerCase().charAt(0)){
+                        case 'a' :
+                            algo = new ExplorationArborescente(stations.values());
+                            break;
+                        case 'b' :
+                            algo = new BellmanFord();
+                            break;
+                        default:
+                        case 'd' :
+                            algo = new Dijkstra();
+                            break;
+                    }
                     System.out.println("Veuillez saisir le nom de la station de départ: ");
                     String str = scanner.next();
                     System.out.println("Veuillez saisir le nom de la station d'arrivée: ");
