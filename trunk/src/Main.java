@@ -121,7 +121,7 @@ public class Main {
      * @return retour un <code>Noeud</code> s'il existe une station avec ce nom.
      */
     public static Noeud getStation(String station) throws NullPointerException {
-        Iterator<Noeud> iterator = ((Iterable<Noeud>) stations).iterator();
+        Iterator<Noeud> iterator = stations.values().iterator();
         boolean isFound = false;
         Noeud cur = null;
         while (iterator.hasNext() && !isFound) {
@@ -153,7 +153,7 @@ public class Main {
 
                 case 2:
                     System.out.println("Veuillez introduire le nom de la station à traiter: ");
-                    afficheCorrespondance(scanner.nextLine());
+                    afficheCorrespondance(scanner.next());
                     break;
 
                 case 3:
