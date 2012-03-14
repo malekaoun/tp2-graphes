@@ -36,7 +36,7 @@ public class ExplorationArborescente implements AlgoCalculPlusCourtChemin {
             System.out.println("Le chemin le plus court est impossible de calculer entre: " + stationDepart + " et " + stationArrive + ".");
             return null;
         }
-
+        stations.get(source).distance = 0;
         parcourProfondeur(source);
 
         return noeudsToArcs();
@@ -59,7 +59,9 @@ public class ExplorationArborescente implements AlgoCalculPlusCourtChemin {
         Noeud cur = fin;
         while (cur != null) {
             Noeud prev = stations.get(cur).predecesseur;
-            arcs.addLast(prev.getConnexion(prev));
+            if (prev == null)
+                break;
+            arcs.addFirst(prev.getConnexion(prev));
             cur = prev;
         }
         if (arcs.peekFirst() == null)
