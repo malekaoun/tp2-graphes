@@ -79,7 +79,7 @@ public class BellmanFord implements AlgoCalculPlusCourtChemin {
             while (iterator.hasNext()) {
                 Arc arcCur = iterator.next();
                 distance = warp.mark + arcCur.getCout();
-                if (!chemins.containsKey(arcCur.getDestination()) && chemins.get(arcCur.getDestination()).mark > distance) {
+                if (!chemins.containsKey(arcCur.getDestination()) || chemins.get(arcCur.getDestination()).mark > distance) {
                     StationWrapper newWarp = new StationWrapper(arcCur.getDestination(), distance, arcCur, arcCur.getSource());
                     chemins.put(arcCur.getDestination(), newWarp);
                     pile.push(newWarp);
