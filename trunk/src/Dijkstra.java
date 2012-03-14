@@ -1,7 +1,4 @@
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Dijkstra implements AlgoCalculPlusCourtChemin {
 
@@ -126,14 +123,14 @@ public class Dijkstra implements AlgoCalculPlusCourtChemin {
      *
      * @return <code>Collection</code> d'<code>Arc</code> avec les <code>Noeud</code> qui rester dans <code>stationsMarquees</code>
      */
-    private LinkedList<Arc> noeudsToArcs() {
-        LinkedList<Arc> arcs = new LinkedList<Arc>();
+    private Deque<Arc> noeudsToArcs() {
+        Deque<Arc> arcs = new LinkedList<Arc>();
         StationWrapper cur = deniereConnexionFaiteAtteignantArrivee;
         while (cur != null) {
             StationWrapper prev = cur.prevStation;
             if (prev == null)
                 break;
-            arcs.addLast(prev.station.getConnexion(cur.station));
+            arcs.addFirst(prev.station.getConnexion(cur.station));
             cur = prev;
         }
         return arcs;

@@ -105,7 +105,7 @@ public class Main {
                 cout += curArc.getCout();
             }
         }
-        str += "et <" + curArc.getSource() + "> (" + curNombreStationLigne + " stations)\n";
+        str += "et <" + curArc.getDestination() + "> (" + curNombreStationLigne + " stations)\n";
         str += "Cout total: " + cout;
         return str;
     }
