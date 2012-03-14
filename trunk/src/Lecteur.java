@@ -36,13 +36,12 @@ public class Lecteur {
                 ligne = br.readLine().split(" ");
                 Noeud start = stations.get(Integer.parseInt(ligne[0]));
                 Noeud end = stations.get(Integer.parseInt(ligne[1]));
-                if (ligne[3] != lastLigne && ligne[3] != "0") {// ne gere pas si les arc sont en desordre
+                Arc arcret = new Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
+                arcs.add(arcret);
+                if (!ligne[3].equals(lastLigne) && !ligne[3].equals("0")) {// ne gere pas si les arc sont en desordre
                     lignes.put(ligne[3], new Ligne(ligne[3], start));
                     lastLigne = ligne[3];
                 }
-                Arc arcret = new Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
-                arcs.add(arcret);
-                start.lierArc(arcret);
 
             }
             br.close();

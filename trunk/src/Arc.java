@@ -47,6 +47,5 @@ public class Arc {
 
     private void lierNoeud() {
         source.lierArc(this);
-        destination.lierArc(this);
     }
 }

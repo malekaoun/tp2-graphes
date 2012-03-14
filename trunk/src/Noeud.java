@@ -1,7 +1,4 @@
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class Noeud implements Comparable<Noeud> {
     private int id;
@@ -12,7 +9,7 @@ public class Noeud implements Comparable<Noeud> {
     public Noeud(int id, String station) {
         this.id = id;
         this.station = station;
-        // Initialiser arcs
+        this.arcs = new ArrayList<Arc>();
     }
 
     public Collection<Arc> getArcs() {
