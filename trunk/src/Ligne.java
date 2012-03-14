@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class Ligne {
     private String ligne;
     private Noeud terminus;
-    private Collection<Noeud> stationsParcourues;
+    
 
     public Ligne(String ligne, Noeud terminus) throws BadAttributeValueExpException {
         this.terminus = terminus;
@@ -32,9 +32,9 @@ public class Ligne {
 
     @Override
     public String toString() {
-        stationsParcourues = new HashSet<Noeud>();
+    	Collection<Noeud> stationsParcourues = new HashSet<Noeud>();
         String chaineLigne = "Ligne " + ligne + ": ";
-        chaineLigne += arborescenceParcourue(terminus);
+        chaineLigne += arborescenceParcourue(terminus,stationsParcourues);
         chaineLigne += "\n(" + stationsParcourues.size() + " stations)";
         return chaineLigne;
     }
@@ -46,12 +46,12 @@ public class Ligne {
      * @param station station appartenant a la ligne
      * @return <code>String</code> avec l'arborescence possible a partir de cet arc.
      */
-    private String arborescenceParcourue(Noeud station) {
+    private String arborescenceParcourue(Noeud station, Collection<Noeud> stationsParcourues) {
         String str = station.getStation() + " -";
         stationsParcourues.add(station);
         for (Arc arc : station.getArcs())
             if (arc.getLigne().equals(ligne) && !stationsParcourues.contains(arc.getDestination()))
-                str += arborescenceParcourue(arc.getDestination());
+                str += arborescenceParcourue(arc.getDestination(),stationsParcourues);
         return str;
     }
 }
