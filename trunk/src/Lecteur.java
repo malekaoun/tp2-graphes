@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * @author asus
@@ -12,7 +11,7 @@ import java.util.Scanner;
  */
 
 public class Lecteur {
-public static void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes, String fileName) {
+    public static void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes, String fileName) {
         String pathFile = "resource";
         String fichier = pathFile + '/' + fileName;
 
@@ -28,17 +27,17 @@ public static void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, M
             nbNoeud = Integer.parseInt(ligne[1]);
 
             for (int i = 0; i < nbNoeud; i++) {
-                ligne = br.readLine().split(" ",2);
+                ligne = br.readLine().split(" ", 2);
                 stations.put(Integer.parseInt(ligne[1]), new Noeud(Integer.parseInt(ligne[0]), ligne[1]));
             }
             String lastLigne = "";
             for (int i = 0; i < nbArc; i++) {
-                ligne = br.readLine().split(" ",2);
+                ligne = br.readLine().split(" ", 2);
                 Noeud start = stations.get(Integer.parseInt(ligne[0]));
                 Noeud end = stations.get(Integer.parseInt(ligne[1]));
                 lastLigne = ligne[3];
-                if(ligne[3] != lastLigne && ligne[3] != "0"){// ne gere pas si les arc sont en desordre
-                	lignes.put(ligne[3], new Ligne(ligne[3],start));
+                if (ligne[3] != lastLigne && ligne[3] != "0") {// ne gere pas si les arc sont en desordre
+                    lignes.put(ligne[3], new Ligne(ligne[3], start));
                 }
                 Arc A = new Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
                 arcs.add(A);
