@@ -153,7 +153,7 @@ public class Main {
 
                 case 2:
                     System.out.println("Veuillez introduire le nom de la station à traiter: ");
-                    afficheCorrespondance(scanner.next());
+                    afficheCorrespondance(scanner.nextLine());
                     break;
 
                 case 3:
