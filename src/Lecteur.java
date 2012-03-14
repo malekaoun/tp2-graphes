@@ -23,8 +23,8 @@ public class Lecteur {
             String[] ligne;
             Integer nbNoeud, nbArc;
             ligne = br.readLine().split(" ");
-            nbArc = Integer.parseInt(ligne[0]);
-            nbNoeud = Integer.parseInt(ligne[1]);
+            nbArc = Integer.parseInt(ligne[1]);
+            nbNoeud = Integer.parseInt(ligne[0]);
 
             for (int i = 0; i < nbNoeud; i++) {
                 ligne = br.readLine().split(" ", 2);
@@ -36,13 +36,13 @@ public class Lecteur {
                 ligne = br.readLine().split(" ");
                 Noeud start = stations.get(Integer.parseInt(ligne[0]));
                 Noeud end = stations.get(Integer.parseInt(ligne[1]));
-                lastLigne = ligne[3];
                 if (ligne[3] != lastLigne && ligne[3] != "0") {// ne gere pas si les arc sont en desordre
                     lignes.put(ligne[3], new Ligne(ligne[3], start));
+                    lastLigne = ligne[3];
                 }
-                Arc A = new Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
-                arcs.add(A);
-                start.lierArc(A);
+                Arc arcret = new Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
+                arcs.add(arcret);
+                start.lierArc(arcret);
 
             }
             br.close();
