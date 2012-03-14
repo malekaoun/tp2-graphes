@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 
 public class Lecteur {
-    public void lecture(Collection<Noeud> stations, Collection<Arc> arcs) {
+public void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes) {
         String pathFile = "C:/Users/asus/Documents/doc moi/travail/Algo prog/TestLecteur";
 
         Scanner sc = new Scanner(System.in);
@@ -31,17 +31,21 @@ public class Lecteur {
             nbNoeud = Integer.parseInt(ligne[1]);
 
             for (int i = 0; i < nbNoeud; i++) {
-                ligne = br.readLine().split(" ");
-                stations.add(Noeud(Integer.parseInt(ligne[0]), ligne[1]));
+                ligne = br.readLine().split(" ",2);
+                stations.put(ligne[1],Noeud(Integer.parseInt(ligne[0]), ligne[1]));
             }
+            String lastLigne = "";
             for (int i = 0; i < nbArc; i++) {
-                ligne = br.readLine().split(" ");
+                ligne = br.readLine().split(" ",2);
                 Noeud start = stations.get(Integer.parseInt(ligne[0]));
                 Noeud end = stations.get(Integer.parseInt(ligne[1]));
-                A = Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
+                lastLigne = ligne[3];
+                if(ligne[3] != lastLigne && ligne[3] != "0"){// ne gere pas si les arc sont en desordre
+                	lignes.put(ligne[3],new(ligne(ligne[3],start)));
+                }
+                Arc A = Arc(ligne[3], Float.parseFloat(ligne[2]), start, end);
                 arcs.add(A);
                 start.lierArc(A);
-                //initiatilation du map de noeud contenant les arcs adjacents
 
             }
             br.close();
