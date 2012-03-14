@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 
 public class Lecteur {
-public void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes, String fileName) {
+public static void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes, String fileName) {
         String pathFile = "resource";
         String fichier = pathFile + '/' + fileName;
 
