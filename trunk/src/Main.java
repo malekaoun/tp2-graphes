@@ -86,7 +86,7 @@ public class Main {
             if (curArc.getLigne().equals("0")) {
                 str += "et <" + curArc.getSource() + "> (" + curNombreStationLigne + " stations)\n";
                 str += "=> Correspondance\n";
-                cout += COUT_CORRESPONDANCE;
+                cout += curArc.getCout();
                 continue;
             }
             if (!curLigne.equals(curArc.getLigne())) {
@@ -95,7 +95,7 @@ public class Main {
                 curNombreStationLigne = 1;
             } else {
                 curNombreStationLigne++;
-                cout += COUT_TRAMWAY;
+                cout += curArc.getCout();
             }
         }
         str += "et <" + curArc.getSource() + "> (" + curNombreStationLigne + " stations)\n";
@@ -135,7 +135,7 @@ public class Main {
         String opt = System.in.toString();
     }
 
-    public static void main (String args[ ]){
+    public static void main (String args[]){
         String opt = System.in.toString();
     }
 }
