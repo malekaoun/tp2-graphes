@@ -28,12 +28,12 @@ public class Dijkstra implements AlgoCalculPlusCourtChemin {
         @Override
         public int compareTo(StationWrapper o) {
             if (o.station == station)
-                if (mark == ((StationWrapper) o).mark)
+                if (mark == o.mark)
                     return 0;
             if (o.mark < mark)
-                return -1;
-            else
                 return 1;
+            else
+                return -1;
         }
 
         @Override
@@ -78,7 +78,7 @@ public class Dijkstra implements AlgoCalculPlusCourtChemin {
                 if (cur.mark < stationsMarquees.get(cur.station)) {
                     stationsMarquees.remove(cur.station); // Elimination de la station pour permettre re-insertion a posteriori.
                 } else
-                    break; // Le station currante a traiter a deja une marque plus petit donc il y a aucun interet de la changer.
+                    continue; // Le station currante a traiter a deja une marque plus petit donc il y a aucun interet de la changer.
             }
             /*
             Si la station n'avait pas ete traitee au prealable alors nous l'ajoutons.
@@ -95,7 +95,7 @@ public class Dijkstra implements AlgoCalculPlusCourtChemin {
 
                 // Optimisation qui permet finir Dijkstra avant de traiter tous les noeuds.
                 if (isArriveeAtteinte) {
-                    if (coutCurMin > cout) {
+                    if (coutCurMin < cout) {
                         coutCurMin = cout;
                         deniereConnexionFaiteAtteignantArrivee = temp;
                     } else {
@@ -131,11 +131,11 @@ public class Dijkstra implements AlgoCalculPlusCourtChemin {
         StationWrapper cur = deniereConnexionFaiteAtteignantArrivee;
         while (cur != null) {
             StationWrapper prev = cur.prevStation;
+            if (prev == null)
+                break;
             arcs.addLast(prev.station.getConnexion(cur.station));
             cur = prev;
         }
-        if (arcs.peekFirst() == null)
-            arcs.removeFirst();
         return arcs;
     }
 }
