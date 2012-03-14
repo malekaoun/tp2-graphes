@@ -124,7 +124,7 @@ public class Dijkstra implements AlgoCalculPlusCourtChemin {
     /**
      * Fonction permettant passer d'une <code>Collectio</code> de <code>Noeud</code> a une de <code>Arc</code> exploitable.
      *
-     * @return <code>Collectio</code> d'<code>Arc</code> avec les <code>Noeud</code> qui rester dans <code>stationsMarquees</code>
+     * @return <code>Collection</code> d'<code>Arc</code> avec les <code>Noeud</code> qui rester dans <code>stationsMarquees</code>
      */
     private LinkedList<Arc> noeudsToArcs() {
         LinkedList<Arc> arcs = new LinkedList<Arc>();
