@@ -12,13 +12,9 @@ import java.util.Scanner;
  */
 
 public class Lecteur {
-public void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes) {
-        String pathFile = "C:/Users/asus/Documents/doc moi/travail/Algo prog/TestLecteur";
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Veuillez saisir le nom du fichier � chager :");
-        String str = sc.nextLine();
-        String fichier = pathFile + '/' + str;
+public void lecture(Map<Integer, Noeud> stations, Collection<Arc> arcs, Map<String, Ligne> lignes, String fileName) {
+        String pathFile = "resource";
+        String fichier = pathFile + '/' + fileName;
 
         //lecture du fichier texte
         try {
